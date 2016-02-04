@@ -1,7 +1,6 @@
 { /* neoebuild script utf8 */
 	prjs:[
-		[neoejloader, ".", {main:"neoe.util.Loader"}, ],
+		[neoejloader, ".", {main:"neoe.neoejloader.Loader"}, ],
 	],
-	destDir:".",
 }
                                                              

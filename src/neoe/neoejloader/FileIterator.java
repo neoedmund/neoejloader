@@ -1,4 +1,4 @@
-package neoe.util;
+package neoe.neoejloader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 public class FileIterator implements Iterable<File> {
 
