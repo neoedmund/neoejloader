@@ -21,7 +21,7 @@ public class Loader {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("param: lib-dir main-class params...");
+		System.out.println("neoejloader 5j16\n  param: lib-dir main-class params...");
 		String libDir = args[0];
 		if (args.length == 1) {
 			System.out.println("main-class is not paramed, so scan lib-dir");
