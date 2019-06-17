@@ -2,5 +2,6 @@
 	prjs:[
 		[neoejloader, ".", {main:"neoe.neoejloader.Loader"}, ],
 	],
+	source:8 target:8
 }
                                                              
