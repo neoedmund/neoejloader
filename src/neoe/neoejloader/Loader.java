@@ -21,7 +21,7 @@ public class Loader {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("neoejloader 5j16\n  param: lib-dir main-class params...");
+		System.out.println("neoejloader 6j17\n  param: lib-dir main-class params...");
 		String libDir = args[0];
 		if (args.length == 1) {
 			System.out.println("main-class is not paramed, so scan lib-dir");
@@ -54,9 +54,40 @@ public class Loader {
 			scan(cl, jars, mains);
 			System.out.println(String.format("Found %d main", mains.size()));
 		} else {
-			System.out.println("jar cnt=" + jars.size() + " run " + mainClass + " " + Arrays.deepToString(args));
-			cl.loadClass(mainClass).getMethod("main", new Class[] { String[].class }).invoke(null,
-					new Object[] { args });
+			if (mainClass.startsWith("?")) {
+				List mains = new ArrayList();
+				scan(cl, jars, mains);
+				String key = mainClass.substring(1);
+				List found = new ArrayList();
+				for (Object o : mains) {
+					String s = (String) o;
+					int p = s.lastIndexOf('.');
+					if (p >= 0) {
+						s = s.substring(p + 1);
+					}
+					if (s.contains(key)) {
+						found.add(o);
+					}
+				}
+				if (found.isEmpty()) {
+					System.out.println("No match for " + key);
+				} else if (found.size() > 1) {
+					StringBuilder sb = new StringBuilder("Ambiguities:[\n");
+					for (Object o : found) {
+						sb.append("\t").append(o).append("\n");
+					}
+					sb.append("]\n");
+					System.out.println(sb);
+				} else {
+					System.out.println("Matched: " + found.get(0));
+					cl.loadClass((String) found.get(0)).getMethod("main", new Class[] { String[].class }).invoke(null,
+							new Object[] { args });
+				}
+			} else {
+				System.out.println("jar cnt=" + jars.size() + " run " + mainClass + " " + Arrays.deepToString(args));
+				cl.loadClass(mainClass).getMethod("main", new Class[] { String[].class }).invoke(null,
+						new Object[] { args });
+			}
 		}
 	}
 
