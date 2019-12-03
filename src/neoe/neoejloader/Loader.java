@@ -8,6 +8,7 @@ import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Loader {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("neoejloader 6j17\n  param: lib-dir main-class params...");
+		System.out.println("neoejloader cj3\n  param: lib-dir main-class params...");
 		String libDir = args[0];
 		if (args.length == 1) {
 			System.out.println("main-class is not paramed, so scan lib-dir");
@@ -39,14 +40,19 @@ public class Loader {
 		Iterable<File> it = new FileIterator(libDir);
 		List<URL> jars = new ArrayList<URL>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		List<File> fs = new ArrayList<File>();
 		for (File f : it) {
 			if (f.isDirectory()) {
 				continue;
 			}
 			if (f.getName().toLowerCase().endsWith(".jar")) {
-				System.out.println("add " + f.getAbsolutePath() + " \t " + sdf.format(new Date(f.lastModified())));
-				jars.add(f.toURI().toURL());
+				fs.add(f);
 			}
+		}
+		Collections.sort(fs);
+		for (File f : fs) {
+			System.out.println("add " + f.getAbsolutePath() + " \t " + sdf.format(new Date(f.lastModified())));
+			jars.add(f.toURI().toURL());
 		}
 		URLClassLoader cl = new URLClassLoader(jars.toArray(new URL[jars.size()]), Loader.class.getClassLoader());
 		if (mainClass == null) {
