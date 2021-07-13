@@ -22,7 +22,7 @@ public class Loader {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("neoejloader cj3\n  param: lib-dir main-class params...");
+		System.out.println("neoejloader 7A14\n  param: lib-dir main-class params...");
 		String libDir = args[0];
 		if (args.length == 1) {
 			System.out.println("main-class is not paramed, so scan lib-dir");
@@ -67,10 +67,10 @@ public class Loader {
 				List found = new ArrayList();
 				for (Object o : mains) {
 					String s = (String) o;
-					int p = s.lastIndexOf('.');
-					if (p >= 0) {
-						s = s.substring(p + 1);
-					}
+//					int p = s.lastIndexOf('.');
+//					if (p >= 0) {
+//						s = s.substring(p + 1);
+//					}
 					if (s.contains(key)) {
 						found.add(o);
 					}
