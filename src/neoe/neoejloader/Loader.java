@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -64,7 +66,7 @@ public class Loader {
 				List mains = new ArrayList();
 				scan(cl, jars, mains);
 				String key = mainClass.substring(1);
-				List found = new ArrayList();
+				Set found = new HashSet();
 				for (Object o : mains) {
 					String s = (String) o;
 //					int p = s.lastIndexOf('.');
@@ -85,12 +87,15 @@ public class Loader {
 					sb.append("]\n");
 					System.out.println(sb);
 				} else {
-					System.out.println("Matched: " + found.get(0));
-					cl.loadClass((String) found.get(0)).getMethod("main", new Class[] { String[].class }).invoke(null,
+					String target = (String) found.iterator().next();
+					System.out.println("Matched: " + target);
+//					Thread.currentThread().setContextClassLoader(cl);
+					cl.loadClass(target).getMethod("main", new Class[] { String[].class }).invoke(null,
 							new Object[] { args });
 				}
 			} else {
 				System.out.println("jar cnt=" + jars.size() + " run " + mainClass + " " + Arrays.deepToString(args));
+//				Thread.currentThread().setContextClassLoader(cl);
 				cl.loadClass(mainClass).getMethod("main", new Class[] { String[].class }).invoke(null,
 						new Object[] { args });
 			}
