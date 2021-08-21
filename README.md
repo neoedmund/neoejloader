@@ -2,3 +2,6 @@
 
 ## usage
 java -jar neoejloader.jar <dir-contains-jars> <main-class> <parameters>
+
+-----------
+Moved to neoebuild
